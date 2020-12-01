@@ -1,0 +1,84 @@
+CS2014 Lab 5 : Bloom Filters
+
+Thursday 1st November 2018
+
+In the lab 4 we implemented a bit vector set, which can be used to
+track sets of numbers in the range 0 to k, where k is a fixed
+constant. The amount of space required by a bit vector set is O(k),
+so ideally k will not be too large.
+
+In 1970 Burton Howard Bloom proposed a new data structure based on bit
+vector sets that is now known as a Bloom filter. A Bloom filter can be
+used to store sets of data of any type in any range within a
+finite-sized bit vector set. However, a Bloom filter is probabilistic:
+If an item has been inserted into a Bloom filter, it is guaranteed
+that when you search for the item that it will be a member of the set.
+However, the Bloom filter also reports false positives: it will report
+that items are present in the set that have never actually been inserted
+in the set.
+
+A Bloom filter makes extensive use of hashing functions and a bit
+vector set. A hashing function takes a value of some type and maps it
+to an integer in the range 0 to k. The simplest Bloom filters apply a
+single hash function to input data and insert the hashed value of the
+input into the bit vector set. Thereafter, if you check for membership
+of the item in the set it will return true. However, other items may
+hash to the same location with the result that the Bloom filter will
+also report these as members of the set.
+
+To reduce the number of false positives, Bloom filters normally use
+more than one hashing function on each input item, and insert each of
+the hashed values into the bit vector set. To subsequently check for
+membership, your code needs to check that the bit for each of the hash
+functions is set in the bit vector set. The hash functions that you
+should use are contained in a set of files that are supplied for the
+lab. See:
+
+https://www.scss.tcd.ie/David.Gregg/cs2014/labs/bitvector-empty-function.zip
+
+Once you unzip this file you can perform various tasks. There is a really,
+really simple Makefile. To compile your code type:
+   make
+
+To delete the compiled file and temporary files type:
+   make clean
+
+Once you have your code for the bitset and bloom filter working
+within these files, you can test them by typing:
+   make test
+
+Please make enter your code by adding it to the files bitset.c,
+bitset.h, bloom.c, and bloom.h. There should be no need to modify
+main.c, runtest, or the Makefile.
+
+Note: There was an update to this zip file at 10.38 on 1st November to
+fix a problem. The updated files were main.c and runtest, which are
+used to test your code. There were no changes in the files bitset.c,
+bitset.h, bloom.c, or bloom.h.
+
+Please write an abstract data type (ADT) to represent an approximate set of
+string. You should implement a Bloom filter to represent the class.
+
+Your ADT, called bitset should support the following methods:
+// create a new, empty Bloom filter of 'size' items
+struct bloom * bloom_new(int size);
+
+// check to see if a string is in the set
+int bloom_lookup(struct bloom * this, char * item);
+
+// add a string to the set
+// has no effect if the item is already in the set
+void bloom_add(struct bloom * this, char * item);
+
+// note that you cannot safely remove items from a Bloom filter
+
+// place the union of src1 and src2 into dest
+void bloom_union(struct bloom * dest, struct bloom * src1,
+		  struct bloom * src2);
+
+// place the intersection of src1 and src2 into dest
+void bloom_intersect(struct bloom * dest, struct bloom * src1,
+                  struct bloom * src2);
+
+Labs 4 and 5 must be submitted together as a single piece of work via
+Blackboard by 23.59 on Wednesday 7th November.

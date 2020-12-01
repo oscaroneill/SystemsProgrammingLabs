@@ -1,0 +1,109 @@
+CS2014 Lab 3 : Bench Calculator part 2
+
+Thursday 4th October 2018
+
+In the first part of this lab you built your bench calculator, similar
+to the bc utiliy. This week you will add some extra features to your
+bench calculator to make it easier to test automatically.
+
+The first thing you should add is the ability for your program
+to read the name of an input file from the command line at
+the time that you execute your program. So if you program is
+called mycalc, and the input file is called test.in, then when
+you execute your program, you will type at the command line:
+
+./mycalc test.in
+
+Using command line parameters is very simple in C. You need to add
+extra parameters to your main function:
+
+int main(int argc, char ** argv)
+{
+  char * filename;
+
+  if ( argc == 1 ) {
+    printf("Error: No input filename provided\n");
+    printf("Usage: %s <input filename>\n", argv[0];
+    exit(1);
+  }
+  else if ( argc > 2 ) {
+    printf("Error: Too many command line parameters\n");
+    printf("Usage: %s <input filename>\n", argv[0];
+    exit(1);
+  }
+  else {
+    filename = argv[1];
+  }
+
+  // more code.....
+
+
+  return 0;
+}
+
+The input file will contain several lines of input. Each line contains
+exactly one expression for your program to evaluate. An example of
+some lines that might appear in an input file are:
+
+infix 3 + 5 X ( 7 - 22 )
+infix 36 X ( 7 + 9 + 8 -3 ) / 6
+postfix 7 8 3 X 28 + +
+
+Each line of input has the following format: The line starts
+with a single word which must be one of "infix" or "postfix".
+A line starting with "infix" will contain a valid expression
+using infix notation. A line starting with "postfix" will contain
+a valid expression in postfix notation. You may assume that
+there will be a space between each "token" of the input.
+
+Your program should create an output file with a similar name
+to the input file, but with ".results" appended to the name.
+So if your input file has the name "test.in", your output file
+should have the name "test.in.results".
+
+The lines of our output file should have the format:
+infix 3 + 5 X ( 7 - 22 )
+-72
+infix 36 X ( 7 + 9 + 8 - 3 ) / 6
+126
+postfix 7 8 3 X 28 + +
+59
+
+In other words, your output file should contain a sequence of pairs of
+lines. The first line in the sequence is an expression that is copied
+from the input file. The second line of each pair should be the result
+that your calculator computes for the expression. Please list the
+expressions in the same order as in the original input file
+
+A quick note on file handling. We declare a file variable with:
+FILE * myfile;
+We can open a file to read with:
+myfile = fopen("filename", "r");
+To open a file for writing use:
+myfile = fopen("filename", "r");
+When you are finished with reading from or writing to a file, it
+is important to close the file. To close a file write:
+fclose(myfile);
+
+If you don't close a file when you are finished with it, your program
+will *often* (but not always) still work despite not closing it.  Bugs
+that result in your code working most of the time, but failing
+sometimes are the worst bugs, because they are difficult to find and
+difficult to reproduce when you need to fix them.  So please close
+your files when you are finished with them, even if most of the time
+you can get away without closing them.
+
+This lab work should be submitted to Blackboard by 23.59 on Tuesday
+9th October 2018. However, should you run into problems, there is an
+automatic extension available until 23.59 on Monday 15th October.  Lab
+3 has been set up on Blackboard for you to submit there.
+
+I had hoped that we would have a fully-automatic online grading system
+working, that would grade your work and give you instant feedback on
+the number of test cases that you pass. Unforunately I have not been
+able to get the system working on time. I hope it will be available
+for the next lab.
+
+Please note that we will use automated grading, but the grading will be
+offline. It is therefore very important that you follow the file
+layouts as exactly as possible.

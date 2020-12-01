@@ -1,0 +1,108 @@
+CS2014 Lab 5 : Bit Vector Sets
+
+Thursday 18th October
+
+When we program we often want to keep track of sets of things. For
+example, we might want to keep track of free seats in a cinema, or
+free spaces in a car park. Tracking sets of items becomes much
+easier if each item is identified by a unique identifier "key".
+
+The problem becomes even simpler if the "keys" have values in the
+range zero (or one) to number of items. This is common in many practical
+situations. For example, the ASCII table gives each character a unique
+number from zero to 255. Houses are commonly numbered 1 to the number
+of houses on a street. The same is true of seats on a rollercoaster,
+or junctions on a motorway.
+
+Write an abstract data type (ADT) to represent sets of items, where
+the class of items that the set is chosen from is small and can be
+mapped onto numbers zero to number of items. You should use bit
+vectors to represent the class. A bit vector is an array of some
+(usually unsigned) integer type. Each bit in each integer is used to
+represent the presence or absence of one item from the class of items
+that can belong to the set.
+
+Your ADT, called bitset should support the following methods:
+
+// create a new, empty bit vector set with a universe of 'size' items
+struct bitset * bitset_new(int size);
+
+// get the size of the universe of items that could be stored in the set
+int bitset_size(struct bitset * this);
+
+// get the number of items that are stored in the set
+int bitset_cardinality(struct bitset * this);
+
+// check to see if an item is in the set
+int bitset_lookup(struct bitset * this, int item);
+
+// add an item, with number 'item' to the set
+// has no effect if the item is already in the set
+int bitset_add(struct bitset * this, int item);
+
+// remove an item with number 'item' from the set
+int bitset_remove(struct bitset * this, int item);
+
+// place the union of src1 and src2 into dest
+void bitset_union(struct bitset * dest, struct bitset * src1,
+		  struct bitset * src2);
+
+// place the intersection of src1 and src2 into dest
+void bitset_intersect(struct bitset * dest, struct bitset * src1,
+                  struct bitset * src2);
+
+
+Your code should be capable of working with test routines such
+as the following ones.
+
+// print the contents of the bitset
+void bitset_print(struct bitset * this)
+{
+  int i;
+  int size = bitset_size(this);
+  for ( i = 0; i < size; i++ ) {
+    if ( bitset_lookup(this, i) == 1 ) {
+      printf("%d ", i);
+    }
+  }
+  printf("\n");
+}
+  
+// add the characters from a string to a bitset
+void add_chars_to_set(struct bitset * this, char * s)
+{
+  int i;
+  for ( i = 0; s[i] != 0; i++ ) {
+    unsigned char temp = s[i];
+    bitset_add(this, temp);
+  }
+}
+
+// small routine to test a bitset
+void mytest()
+{
+  struct bitset * a = bitset_new(256);
+  struct bitset * b = bitset_new(256);
+  struct bitset * c = bitset_new(256);
+  char * string1 = "What can you hear";
+  char * string2 = "Nothing but the rain";
+
+  void add_chars_to_set(a, string1);
+  void add_chars_to_set(a, string2);
+
+  // print the contents of the sets
+  bitset_print(a);
+  bitset_print(b);
+
+  // compute and print the union of sets
+  void bitset_union(c, a, b);
+  bitset_print(c);
+
+  // compute and print the intersection of sets
+  void bitset_intersect(c, a, b);
+  bitset_print(c);
+}
+
+
+
+

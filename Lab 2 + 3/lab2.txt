@@ -1,0 +1,101 @@
+CS2014 Lab 2 : Bench Calculator part 1
+
+Thursday 13th September 2018
+
+There are three main steps to this lab: to compute the value of
+arithmetic expressions in postfix (or reverse Polish) notation; to
+convert infix arithmetic expressions to postfix; and to deal with
+file handling.
+
+For the first step your program should read in a file containing a
+line of text containing an expression in postfix notation and write
+out the value of that expression.
+
+For example, the input file might contain something like:
+7 8 3 X 28 + +
+Your programm would then output:
+59
+    
+The operators that you calculator should support are plus (+), minus
+(-), multiply (X), divide (/) and to-the-power-of (^), and they should
+operate on double precision floating point numbers.
+
+The algorithm for computing the value of an expression in reverse
+Polish notation is simple:
+
+for each token in the input string {
+  if ( token is a number ) {
+    push token onto the stack
+  }
+  else if ( token is an operator ) {
+    pop the top two items off the stack
+    apply the operator to the two items
+    push the result onto the stack
+  }
+}
+
+At the end of this computation, if you are dealing with a correctly-
+formed expression, there should be exactly one number on the stack.
+This is the result of the expression. You should implement your stack
+as a linked list.
+
+Once your program can compute the value of postfix expressions, extend
+it further to compute the value of infix expressions. For example, if
+the input is:
+        ( 7 + 8 ) * 3 - 22
+The output should be:
+        23
+
+A good way to evaluate expressions is to first convert them to reverse
+Polish notation (RPN), and then use the your existing algorithm for
+evaluating RPN expressions. There is a simple algorithm for converting
+infix expresions to RPN, which uses a stack of operations.
+
+for each token in the input string {
+  if ( token is a number ) {
+    append token to the output string
+  }
+  else if (token is a left bracket) {
+    push bracket to stack
+  }
+  else if ( token in an operator ) {
+    while ( there is operator on top of stack with higher precedence ) {
+      pop stack and append popped operator to output string
+    }
+    push token operator to stack
+  }
+  else if ( token is right bracket ) {
+    while ( top of stack != '(' ) {
+      pop operator from stack and append to output string
+    pop left bracket
+  }
+}
+
+Finally, pop any remaining stack items and append each of them to the
+end of your reverse Polish notation expression.
+
+Note that you can assume that the expression that your program
+receives is well formed. You do not have to do any complicated error
+checking.
+
+You can assume that the precedence of operators is as follows:
+    ^
+    X, /
+    +, -
+
+You may use the C mathematics library (#include<math.h>) to compute
+the to-the-power-of function. For example, to raise 37.0 to the power of
+0.5 write:
+    result = pow(37.0, 0.5);
+
+Note that depending on your C compiler, you may need to add an extra
+compiler flag when using the math.h library. Some older compilers require
+you to pass the -lm (link math) flag on the command line so that the
+linker links to the math library. So you would write something like:
+
+       gcc -o calc calulator.c -lm
+
+This lab is the first part of a two-part project for CS2014. You
+should expect to complete at least the postfix calculator part of this
+lab in the first week. Note that to get marks for the lab, you need to
+implement your stack(s) as linked lists.

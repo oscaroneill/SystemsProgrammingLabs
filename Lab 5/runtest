@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# simple test of the bitset
+./prog bitset input1.txt > temp1
+if diff -q temp1 test_out1; then
+echo "bitset output matches test output"
+else
+echo "bitset output does not match test output"
+fi
+
+./prog bloom input2.txt > temp2
+if diff -q temp2 test_out2; then
+echo "bloom output matches test output"
+else
+echo "bloom output does not match test output"
+fi
